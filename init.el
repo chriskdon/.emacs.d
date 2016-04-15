@@ -27,6 +27,8 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+; (package-refresh-contents)
+
 ;; The packages you want installed. You can also install these
 ;; manually with M-x package-install
 ;; Add in your own as you wish:
@@ -66,7 +68,16 @@
     tagedit
 
     ;; git integration
-    magit))
+    magit
+
+    neotree
+
+    js2-mode
+
+    web-mode))
+
+    ;; neo tree
+    ;neotree))
 
 ;; On OS X, an Emacs instance started from the graphical user
 ;; interface will have a different environment than a shell in a
@@ -134,3 +145,17 @@
 ; Custom changes
 (set-default 'truncate-lines t) ;; Disable line wrapping (soft wrap)
 (tool-bar-mode -1) ;; Hide the toolbar
+
+; neotree
+(require 'neotree)
+(global-set-key [f1] 'neotree-toggle)
+
+; Setup web modes
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+      (let ((web-mode-enable-part-face nil))
+        ad-do-it)
+    ad-do-it))
+
+(setq-default indent-tabs-mode nil)
